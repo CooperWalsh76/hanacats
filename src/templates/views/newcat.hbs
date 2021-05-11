@@ -17,34 +17,28 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-md-4">
-                    <h2>Cats Table</h2>
-                    <p>All chill bros</p>
+                <div class="col-lg-6 ncform">
+                    <form>
+                        <div class="form-group">
+                            <h2>Enter New Cat</h2>
+                            <hr>
+                            <label for="catNameInput">Cat Name:</label>
+                            <input type="text" class="form-control" id="catNameInput" aria-describedby="emailHelp" placeholder="Enter Name">
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="catAge">Cat Age:</label>
+                            <input type="text" class="form-control" id="catAge" placeholder="Enter Age">
+                            
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 button-list">
-                    <button class="btn btn-default" id="list_btn">List Cats</button>
-                    <button class="btn btn-primary" id="new_btn">Add Cats</button>
-                    <button class="btn btn-warning" disabled="disabled">Edit Cats</button>
-                    <button class="btn btn-danger" disabled="disabled">Delete Cats</button>
-                </div>
-            </div>
-            <table class="table table-striped" id="cats_table">
-                <tr>
-                    <th scope="col">Cat ID</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Age</th>
-                </tr>
-                
-            </table>
-        </div>
-    </body> 
+            
+    </body>
 
-    <script type="text/javascript">
-    document.getElementById("new_btn").onclick = function () {
-        location.href = "/newcat";
-    };
-    </script>
     <script src="/js/list_cats.js"></script>
 </HTML>
