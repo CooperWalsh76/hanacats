@@ -1,0 +1,4 @@
+applications:
+- name: cat-server
+  command: node src/app.js
+  memory: 512M
