@@ -60,6 +60,18 @@ app.get('/newcat', (req, res)=>{
     res.render('newcat')
 })
 
+app.get('/delcat', (req, res)=>{
+    res.render('deletecat')
+})
+
+app.get('/uptcat', (req, res)=>{
+    res.render('updatecat')
+})
+
+
+app.get('*', (req, res) => {
+     res.render('notfound')
+})
 
 app.listen(port, ()=> {
     console.log('Server ' + port + ' porto wine-o')
