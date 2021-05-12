@@ -56,6 +56,10 @@ app.get('', (req, res) => {
 })
 
 
+app.get('/newcat', (req, res)=>{
+    res.render('newcat')
+})
+
 
 app.listen(port, ()=> {
     console.log('Server ' + port + ' porto wine-o')

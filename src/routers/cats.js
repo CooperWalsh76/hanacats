@@ -20,7 +20,46 @@ var connOptions = {
 
 const router = new express.Router()
 
+router.post('/cats', async (req, res)=> {
+    console.log(req.body);
+    let name = req.body.name;
+    let age = req.body.age;
+
+
+    const connection = hana.createConnection();
+    try{
+        await connection.connect(connOptions);
+    }catch(e){
+        res.status(400).send(e)
+    }
+    
+    
+    
+    try {
+            const sql = await connection.prepare("INSERT INTO TEST_SCHEMA.CATS(NAME, AGE) VALUES(?, ?)");
+            const rows = await sql.execQuery([name, age]);
+            res.send(rows)
+     } catch (e) {
+            console.log(e)
+            res.status(400).send(e)
+     }
+
+     try{
+        await connection.disconnect();
+        console.log('db connection deleted');
+     }catch(e) {
+        res.status(400).send(e)
+     }  
+})
+
+router.post('/cats/*', async (req, res)=> {
+    res.send('POST request to the homepage')  
+})
+
+
+
 router.get('/cats', async (req, res)=> {
+    
     const connection = hana.createConnection();
     try{
         await connection.connect(connOptions);
@@ -43,90 +82,12 @@ router.get('/cats', async (req, res)=> {
         res.status(400).send(e)
      }
 
-     // OLD WATERFALL METHOD LISTED BELOW - NO LONGER NEEDED AS ASYNC AWAIT FRAMEWORK NOW IS FUNCTIONAL 
-        // var tasks = [
-        //     myconn,
-        //     mysql, myexecute, myresults,
-        //     mydisco
-        // ];
-
-        // waterfall(tasks, done);
-        // console.log("Async calls underway\n");
-
-
-
-        // function myconn(cb) {
-        //     connection.connect(connOptions);
-        //     cb(null);
-        // }
-
-        // function mysql(cb) {
-        //     var sql = 'SELECT * FROM TEST_SCHEMA.CATS';
-        //     cb(null, sql);
-        // }
-
-        // function myexecute(sql, cb) {
-        //     var rows = connection.exec(sql);
-        //     cb(null, rows);
-        // }
-
-        // function myresults(rows, cb) {
-        //     console.log(util.inspect(rows, { colors: true }));
-        //     console.log("");
-        //     res.send(rows);
-        //     cb(null);
-        // }
-
-        // function mydisco(cb) {
-            
-        //     connection.disconnect(cb);
-        // }
-
-        // function done(err) {
-        //     console.log("Async done");
-        //     if (err) {
-        //         return console.error(err);
-        //     }
-        // }
-    
-
-    
 })
 
-router.get('/newcat', (req, res)=>{
-    res.render('newcat')
-})
 
-router.post('/cats', async (req, res)=> {
-    let name = req.body.name;
-    let age = req.body.age;
-    
-    const connection = hana.createConnection();
-    try{
-        await connection.connect(connOptions);
-    }catch(e){
-        res.status(400).send(e);
-    }
-    
-    console.log("Name: ", name, " Age: ", age);
-    res.send("hello: ", name);
 
-    // const sql = "INSERT INTO TEST_SCHEMA.CATS(NAME, AGE) VALUES(?, ?)";
-    // try {
-    //         const rows = await connection.exec(sql, [name, age]);
-    //         res.status(201).send(rows);
-    //  } catch (e) {
-    //         res.status(400).send("The error happened during the post here is the error:",e);
-    //  }
-    
-    try{
-        await connection.disconnect();
-        console.log('db connection deleted');
-    }catch(e) {
-        res.status(400).send(e);
-    }
 
-    
-})
+
+
 
 module.exports = router
