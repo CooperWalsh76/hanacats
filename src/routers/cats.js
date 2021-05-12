@@ -1,6 +1,4 @@
 const express = require('express')
-//bring in db
-//const pool = require('../db/conn')
 var util = require('util');
 var waterfall = require('async-waterfall');
 var hana = require('@sap/hana-client');
@@ -23,8 +21,13 @@ const router = new express.Router()
 router.post('/cats', async (req, res)=> {
     console.log(req.body);
     let name = req.body.name;
-    let age = req.body.age;
+    let age =  parseInt(req.body.age, 10);
 
+    if(name==""||name==null){
+        res.status(400).send("Need a name");
+    }else if((age==""||age==null)||(!Number.isInteger(age)||age<0)){
+        res.status(400).send("Please enter a valid age");
+    }
 
     const connection = hana.createConnection();
     try{
@@ -32,8 +35,6 @@ router.post('/cats', async (req, res)=> {
     }catch(e){
         res.status(400).send(e)
     }
-    
-    
     
     try {
             const sql = await connection.prepare("INSERT INTO TEST_SCHEMA.CATS(NAME, AGE) VALUES(?, ?)");

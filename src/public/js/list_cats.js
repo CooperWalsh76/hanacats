@@ -15,7 +15,6 @@ $( "#list_btn" ).click(function() {
       console.log(cats);
       cats.forEach((cat)=>{
           $('#cats_table > tbody:first').append('<tr><td scope="row">'+cat.CAT_ID+'</td><td>'+cat.NAME+'</td><td>'+cat.AGE+'</td></tr>');
-          //$('#cats_table > tbody:first').append('<td scope="row">',cat.CAT_ID,'</td><td>',cat.NAME,'</td><td>',cat.AGE,'</td>');
       })
       $(this).prop('disabled', true);
   });
