@@ -1,3 +1,4 @@
+//call server to get all the cats
 async function getCats() {
     try{
         cats = await fetch('/cats');
@@ -10,6 +11,7 @@ async function getCats() {
     
 };
 
+//call function to get all the cats, then append those cats the table, this is triggered by the JQuery on click event 
 $( "#list_btn" ).click(function() {
   getCats().then((cats)=>{
       console.log(cats);
