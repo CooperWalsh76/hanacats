@@ -97,10 +97,9 @@ router.delete('/cats/:id', async (req, res)=> {
 
      //delete the cat
      try {
-            const sql = await connection.prepare("DELETE * FROM TEST_SCHEMA.CATS WHERE CAT_ID = ?");
+            const sql = await connection.prepare("DELETE FROM TEST_SCHEMA.CATS WHERE CAT_ID = ?");
             const rows = await sql.exec([id]);
-            res.send('Cat was deleted');
-            
+            res.send('Cat was deleted');    
      } catch (e) {
             console.log(e)
             res.status(400).send(e)
@@ -133,6 +132,49 @@ router.get('/cats', async (req, res)=> {
             const rows = await connection.exec(sql);
             res.status(200).send(rows)
      } catch (e) {
+            res.status(400).send(e)
+     }
+
+     //release connection to db
+     try{
+        await connection.disconnect();
+        console.log('db connection deleted');
+     }catch(e) {
+        res.status(400).send(e)
+     }
+
+})
+
+
+router.get('/cats/:id', async (req, res)=> {
+    
+    //pass in id of cat to delete
+    let id = req.params.id;
+    console.log(id);
+    
+    //create connection to db
+    const connection = hana.createConnection();
+    try{
+        await connection.connect(connOptions);
+    }catch(e){
+        res.status(400).send(e)
+    }
+    
+    //see if there is a cat to delete
+    try {
+            const sql = await connection.prepare("SELECT * FROM TEST_SCHEMA.CATS WHERE CAT_ID = ?");
+            const rows = await sql.exec([id]);
+            console.log(rows);
+
+            if(rows.length===0){
+                await connection.disconnect();
+                res.status(404).send("Could not find cat with that ID");
+                return;
+            }
+
+            res.send(rows[0]);
+     } catch (e) {
+            console.log(e)
             res.status(400).send(e)
      }
 

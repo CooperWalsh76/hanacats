@@ -1,9 +1,9 @@
 <HTML>
     <header>
         <script
-                src="https://code.jquery.com/jquery-3.6.0.slim.js"
-                integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
-                crossorigin="anonymous">
+            src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous">
         </script>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
@@ -24,8 +24,53 @@
                     <hr>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <form>
+                        <div class="form-group">
+                            <label for="cat-select">Choose Cat to Delete:</label>
+                            <select class="form-control" id="cat-select">
+                                
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cat-select-name">Name:</label>
+                            <p id="cat-select-name"></p>
+                        </div>
+                        <div class="form-group">
+                            <label for="cat-select-age">Age:</label>
+                            <p id="cat-select-age"></p>
+                        </div>
+                        <button type="button" id="delete_cat" class="btn btn-danger">Delete Cat</button>
+                        <button type="button" id="return_home" class="btn btn-info">Return Home</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    </body> 
-
+        
+        <script src="/js/deletecats.js"></script>
     
+
+
+    <!-- Modal -->
+        <div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="responseModal" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="responseModal">Cat Server</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div id="messages_content" class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="del-success" onClick="pageRefresh();">Close</button>
+                <button type="button" class="btn btn-default"><a href="/">Return to Home</a></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </body> 
 </HTML>

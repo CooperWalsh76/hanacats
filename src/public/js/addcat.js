@@ -47,3 +47,7 @@ $("#add_cat").click((e)=>{
     });
 
 });
+
+$("#return_home").click(() => {
+    location.href = "/";
+});

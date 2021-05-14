@@ -9,10 +9,10 @@ how the /cats api's work
 Last Modified: 5/12/2021 Cooper Walsh
 */
 require('dotenv').config();
-const path = require('path')
-const express = require('express')
-const hbs = require('hbs')
-
+const path = require('path');
+const express = require('express');
+const hbs = require('hbs');
+const axios = require('axios');
 
 
 
@@ -46,9 +46,6 @@ app.use(express.static(publicDirectoryPath))
 app.use(express.json())
 app.use(catsRouter)
 
-
-
-
 app.get('', (req, res) => {
      res.render('index', {
          title: 'Cats App',
@@ -61,7 +58,7 @@ app.get('/newcat', (req, res)=>{
     res.render('newcat')
 })
 
-app.get('/delcat', (req, res)=>{
+app.get('/delcat', async (req, res)=>{
     res.render('deletecat')
 })
 
