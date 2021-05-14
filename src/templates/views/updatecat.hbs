@@ -24,7 +24,55 @@
                     <hr>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <form>
+                        <div class="form-group">
+                            <label for="cat-select">Choose Cat to Edit:</label>
+                            <select class="form-control" id="cat-select">
+                                
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="cat-select-name">Name:</label>
+                            <input id="cat-select-name" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="cat-select-age">Age:</label>
+                            <input id="cat-select-age" type="text" class="form-control">
+                        </div>
+                        <button type="button" id="update_cat" class="btn btn-success">Update Cat</button>
+                        <button type="button" id="return_home" class="btn btn-info">Return Home</button>
+                    </form>
+                </div>
+            </div>
         </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="responseModal" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="responseModal">Cat Server</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div id="messages_content" class="modal-body">
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="del-success" onClick="pageRefresh();">Close</button>
+                <button type="button" class="btn btn-default"><a href="/">Return to Home</a></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <script src="/js/editcats.js"></script>
     </body> 
 
 </HTML>

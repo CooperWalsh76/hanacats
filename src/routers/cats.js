@@ -65,6 +65,57 @@ router.post('/cats', async (req, res)=> {
      }  
 })
 
+//update an existing cat
+router.patch('/cats/:id', async (req, res)=> {
+    
+    //pass in id of cat to update
+    let id = req.params.id;
+    let newName = req.body.name;
+    let newAge = req.body.age;
+    console.log("id: ",id," name: ",newName," age: ", newAge);
+    
+    //create connection to db
+    const connection = hana.createConnection();
+    try{
+        await connection.connect(connOptions);
+    }catch(e){
+        res.status(400).send(e)
+    }
+    
+    //see if there is a cat to update
+    try {
+            const sql = await connection.prepare("SELECT * FROM TEST_SCHEMA.CATS WHERE CAT_ID = ?");
+            const rows = await sql.exec([id]);
+            console.log(rows);
+            if(rows.length===0){
+                await connection.disconnect();
+                res.status(400).send('Could not find the cat');
+                return;
+            }
+     } catch (e) {
+            console.log(e)
+            res.status(400).send(e)
+     }
+
+     //update the cat in the database
+     try {
+            const sql = await connection.prepare("UPDATE TEST_SCHEMA.CATS SET NAME = ?, AGE = ? WHERE CAT_ID = ?");
+            const rows = await sql.exec([newName, newAge, id]);
+            res.send('Cat was updated');    
+     } catch (e) {
+            console.log(e)
+            res.status(400).send(e)
+     }
+
+     //release db connection
+     try{
+        await connection.disconnect();
+        console.log('db connection deleted');
+     }catch(e) {
+        res.status(400).send(e)
+     }  
+})
+
 
 router.delete('/cats/:id', async (req, res)=> {
     

@@ -22,17 +22,41 @@ async function getCatsByID(id) {
     } 
 };
 
-async function deleteCats(id){
+//update the cat based on the fields given in the input boxes
+async function updateCats(id, name, age){
+    
+    //populate array of data to send in message body and check it is valid
     try{
+        var data = {
+            name: name.trim(), 
+            age: parseInt(age, 10)
+        };
+
+        if(data.name==""||data.name==null){
+            response = "Please enter a name";
+            return(response);
+        }
+        console.log(data.age);
+        if(!Number.isInteger(data.age)){
+            response = "Age needs to be a valid number";
+            return(response);
+        }else if(data.age < 0){
+            response = "Age needs to be a positive number";
+            return(response);
+        }
+        console.log(data);
         var response = await fetch('/cats/'+id, {
-                      method: 'DELETE',
+                      method: 'PATCH',
                       headers: {
                         'Content-Type': 'application/json',
-                      }
+                      },
+
+                      body: JSON.stringify(data)
                       
                     });
         response = await response.text();
         return response;
+
     }catch(err){
         console.log(err);
     }
@@ -58,20 +82,23 @@ $( document ).ready(()=>{
 //call function to get the info of the cat selected 
 $( "#cat-select" ).change(()=>{
     var id = parseInt($("#cat-select").val(),10);
+
     getCatsByID(id).then((cat)=>{
         console.log(cat);
-        $('#cat-select-name').text(cat.NAME);
-        $('#cat-select-age').text(cat.AGE);
+        $('#cat-select-name').val(cat.NAME);
+        $('#cat-select-age').val(cat.AGE);
     });
 });
 
 
-$("#delete_cat").click((e)=>{
+$("#update_cat").click((e)=>{
     e.preventDefault();
     var id = parseInt($("#cat-select").val(),10);
+    var name = $("#cat-select-name").val();
+    var age = parseInt($("#cat-select-age").val(),10);
     
     console.log('button pressed');
-    deleteCats(id).then((response)=>{
+    updateCats(id,name,age).then((response)=>{
         $('#responseModal').modal('show');
         $('#messages_content').html('<p>'+response+'</p>');
     });
