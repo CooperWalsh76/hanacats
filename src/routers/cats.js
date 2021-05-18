@@ -199,7 +199,7 @@ router.get('/cats', async (req, res)=> {
 
 router.get('/cats/:id', async (req, res)=> {
     
-    //pass in id of cat to delete
+    //pass in id of cat to return
     let id = req.params.id;
     console.log(id);
     
@@ -211,7 +211,7 @@ router.get('/cats/:id', async (req, res)=> {
         res.status(400).send(e)
     }
     
-    //see if there is a cat to delete
+    //see if there is a cat with that ID in the db and if there is return it to the user
     try {
             const sql = await connection.prepare("SELECT * FROM TEST_SCHEMA.CATS WHERE CAT_ID = ?");
             const rows = await sql.exec([id]);
